@@ -27,7 +27,7 @@ void render()
         }
 
         // TODO: Fix for empty end line
-        printf("%d: ", i + 1);
+        printf("%-2d| ", i + 1);
 
         for (int j = 0; j < 100; j++)
         {
