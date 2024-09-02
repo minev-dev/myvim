@@ -21,6 +21,14 @@ void render()
 
     for (int i = 0; i < 5; i++)
     {
+        if (content[i][0] == 0)
+        {
+            break;
+        }
+
+        // TODO: Fix for empty end line
+        printf("%d: ", i + 1);
+
         for (int j = 0; j < 100; j++)
         {
             if (content[i][j] == 0)
