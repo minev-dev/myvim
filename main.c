@@ -9,7 +9,9 @@
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x, y) printf("\033[%d;%dH", (y), (x))
 
-#define MIN_X 5
+#define LINE_NUMBER_PADDING 4
+
+#define MIN_X LINE_NUMBER_PADDING + 1
 #define MIN_Y 1
 
 int pos[2] = {MIN_X, MIN_Y};
