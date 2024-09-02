@@ -165,5 +165,7 @@ int main(int argc, char *argv[])
 
     save_file(file_path);
 
+    clear();
+
     return 0;
 }
