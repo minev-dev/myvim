@@ -17,7 +17,7 @@
 
 enum InputMode
 {
-    RAW = 0,
+    NORMAL = 0,
     INSERT = 1,
 };
 
@@ -26,7 +26,7 @@ int pos[2] = {MIN_X, MIN_Y};
 // TODO: Store content in dynamic array
 char content[5][100];
 
-enum InputMode g_input_mode = RAW;
+enum InputMode g_input_mode = NORMAL;
 
 void read_file(char *file_path)
 {
@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 
         if (input == '\033')
         {
-            g_input_mode = RAW;
+            g_input_mode = NORMAL;
             continue;
         }
 
