@@ -9,7 +9,10 @@
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x, y) printf("\033[%d;%dH", (y), (x))
 
-int pos[2] = {1, 1};
+#define MIN_X 5
+#define MIN_Y 1
+
+int pos[2] = {MIN_X, MIN_Y};
 char content[5][100];
 
 // TODO: Introduce enum
@@ -95,12 +98,18 @@ int main(int argc, char *argv[])
             switch (input)
             {
             case 'k':
+                if (pos[1] == MIN_Y)
+                    break;
+
                 pos[1] -= 1;
                 break;
             case 'j':
                 pos[1] += 1;
                 break;
             case 'h':
+                if (pos[0] == MIN_X)
+                    break;
+
                 pos[0] -= 1;
                 break;
             case 'l':
@@ -111,12 +120,6 @@ int main(int argc, char *argv[])
                 break;
             }
         }
-
-        if (pos[0] < 1)
-            pos[0] = 1;
-
-        if (pos[1] < 1)
-            pos[1] = 1;
 
         render();
     }
