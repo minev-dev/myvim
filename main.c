@@ -9,12 +9,16 @@
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x, y) printf("\033[%d;%dH", (y), (x))
 
-#define LINE_NUMBER_PADDING 4
+#define LINE_NUM_LEN 2
+#define LINE_NUM_SEP_LEN 2
+#define LINE_NUM_PADDING LINE_NUM_LEN + LINE_NUM_SEP_LEN
 
-#define MIN_X LINE_NUMBER_PADDING + 1
+#define MIN_X LINE_NUM_PADDING + 1
 #define MIN_Y 1
 
 int pos[2] = {MIN_X, MIN_Y};
+
+// TODO: Store content in dynamic array
 char content[5][100];
 
 // TODO: Introduce enum
@@ -122,7 +126,7 @@ int main(int argc, char *argv[])
 
         if (input_mode)
         {
-            content[pos[1] - 1][pos[0] - LINE_NUMBER_PADDING - 1] = input;
+            content[pos[1] - 1][pos[0] - LINE_NUM_PADDING - 1] = input;
             pos[0] += 1;
         }
         else
