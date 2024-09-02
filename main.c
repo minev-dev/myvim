@@ -20,6 +20,43 @@ char content[5][100];
 // TODO: Introduce enum
 bool input_mode = false;
 
+void read_file(char *file_path)
+{
+    FILE *fp = fopen(file_path, "r");
+
+    int i = 0;
+    while (fgets(content[i++], 100, fp))
+    {
+    }
+
+    fclose(fp);
+}
+
+void save_file(char *file_path)
+{
+    FILE *fp = fopen(file_path, "w");
+
+    for (int i = 0; i < 5; i++)
+    {
+        if (content[i][0] == 0)
+        {
+            break;
+        }
+
+        for (int j = 0; j < 100; j++)
+        {
+            if (content[i][j] == 0)
+            {
+                break;
+            }
+
+            fputc(content[i][j], fp);
+        }
+    }
+
+    fclose(fp);
+}
+
 void render()
 {
     clear();
@@ -52,14 +89,7 @@ int main(int argc, char *argv[])
 {
     char *file_path = argv[1];
 
-    FILE *fp = fopen(file_path, "r");
-
-    int i = 0;
-    while (fgets(content[i++], 100, fp))
-    {
-    }
-
-    fclose(fp);
+    read_file(file_path);
 
     render();
 
@@ -92,7 +122,7 @@ int main(int argc, char *argv[])
 
         if (input_mode)
         {
-            content[pos[1] - 1][pos[0] - 1] = input;
+            content[pos[1] - 1][pos[0] - LINE_NUMBER_PADDING - 1] = input;
             pos[0] += 1;
         }
         else
@@ -128,6 +158,8 @@ int main(int argc, char *argv[])
 
     // Restore original terminal settings
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+
+    save_file(file_path);
 
     return 0;
 }
