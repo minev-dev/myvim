@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <signal.h>
 #include <string.h>
-#include <stdbool.h>
 
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x, y) printf("\033[%d;%dH", (y), (x))
@@ -16,13 +15,18 @@
 #define MIN_X LINE_NUM_PADDING + 1
 #define MIN_Y 1
 
+enum InputMode
+{
+    RAW = 0,
+    INSERT = 1,
+};
+
 int pos[2] = {MIN_X, MIN_Y};
 
 // TODO: Store content in dynamic array
 char content[5][100];
 
-// TODO: Introduce enum
-bool input_mode = false;
+enum InputMode g_input_mode = RAW;
 
 void read_file(char *file_path)
 {
@@ -121,11 +125,11 @@ int main(int argc, char *argv[])
 
         if (input == '\033')
         {
-            input_mode = false;
+            g_input_mode = RAW;
             continue;
         }
 
-        if (input_mode)
+        if (g_input_mode == INSERT)
         {
             content[pos[1] - 1][pos[0] - LINE_NUM_PADDING - 1] = input;
             pos[0] += 1;
@@ -153,7 +157,7 @@ int main(int argc, char *argv[])
                 pos[0] += 1;
                 break;
             case 'i':
-                input_mode = true;
+                g_input_mode = INSERT;
                 break;
             }
         }
