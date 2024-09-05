@@ -77,8 +77,7 @@ void render()
         }
 
         // TODO: Fix for empty end line
-        // TODO: Use 2 from const
-        printf("%-2d| ", i + 1);
+        printf("%-*d| ", LINE_NUM_LEN, i + 1);
 
         for (int j = 0; j < 100; j++)
         {
