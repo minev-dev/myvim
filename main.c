@@ -24,7 +24,7 @@ enum InputMode
 int pos[2] = {MIN_X, MIN_Y};
 
 // TODO: Store content in dynamic array
-char content[5][100];
+char content[100];
 
 enum InputMode g_input_mode = NORMAL;
 
@@ -33,8 +33,10 @@ void read_file(char *file_path)
     FILE *fp = fopen(file_path, "r");
 
     int i = 0;
-    while (fgets(content[i++], 100, fp))
+    char c;
+    while ((c = fgetc(fp)) != EOF)
     {
+        content[i++] = c;
     }
 
     fclose(fp);
@@ -44,22 +46,14 @@ void save_file(char *file_path)
 {
     FILE *fp = fopen(file_path, "w");
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 100; i++)
     {
-        if (content[i][0] == 0)
+        if (content[i] == 0)
         {
             break;
         }
 
-        for (int j = 0; j < 100; j++)
-        {
-            if (content[i][j] == 0)
-            {
-                break;
-            }
-
-            fputc(content[i][j], fp);
-        }
+        fputc(content[i], fp);
     }
 
     fclose(fp);
@@ -69,25 +63,26 @@ void render()
 {
     clear();
 
-    for (int i = 0; i < 5; i++)
+    unsigned int line_n = 1;
+
+    char prev_c;
+    char c;
+    for (int i = 0; i < 100; i++)
     {
-        if (content[i][0] == 0)
+        if (i == 0 || prev_c == '\n')
+        {
+            printf("%-*d| ", LINE_NUM_LEN, line_n++);
+        }
+
+        c = content[i];
+        if (c == 0)
         {
             break;
         }
 
-        // TODO: Fix for empty end line
-        printf("%-*d| ", LINE_NUM_LEN, i + 1);
+        printf("%c", c);
 
-        for (int j = 0; j < 100; j++)
-        {
-            if (content[i][j] == 0)
-            {
-                break;
-            }
-
-            printf("%c", content[i][j]);
-        }
+        prev_c = c;
     }
 
     gotoxy(pos[0], pos[1]);
@@ -130,7 +125,8 @@ int main(int argc, char *argv[])
 
         if (g_input_mode == INSERT)
         {
-            content[pos[1] - 1][pos[0] - LINE_NUM_PADDING - 1] = input;
+            // TODO: fix
+            // content[pos[1] - 1][pos[0] - LINE_NUM_PADDING - 1] = input;
             pos[0] += 1;
         }
         else
